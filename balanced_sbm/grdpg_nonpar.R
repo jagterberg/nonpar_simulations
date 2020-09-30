@@ -106,7 +106,7 @@ for (eps in epsilons) {
       test <- nonpar.test(Xnew,Yhat,1000)
       vals[[i]][[j]] <-  sum(test$permutation_results) + vals[[i]][[j]]
     }
-    vals[[i]][[j]] <- vals[[i]][[j]]#/MCs
+    vals[[i]][[j]] <- vals[[i]][[j]]/MCs
     j <- j + 1
   }
   names(vals[[i]]) <- ns
@@ -115,20 +115,27 @@ for (eps in epsilons) {
 }
 
 names(vals) <- epsilons
-save(vals,file = "MC_results_9-29.Rdata")
+#save(vals,file = "MC_results_9-29.Rdata")
 
 #code to create table in paper  
 #MCs <- 50
-#epsilons <- c(0,.05,.1,.15,.2,.25,.3)
+#epsilons <- epsilons
 #ns <- c(100,200,300,400,500)#,1000)
 
-# results <- matrix(0,length(epsilons),length(ns))
-# colnames(results) <- ns
-# rownames(results) <- epsilons
+results <- matrix(0,length(epsilons),length(ns))
+colnames(results) <- ns
+rownames(results) <- epsilons
 
 
-# results2 <- t(results)
+results2 <- t(results)
 # rm(results)
+ for (eps in epsilons) {
+   for(n in ns) {
+     results2[as.character(n),as.character(eps)] <- vals[[as.character(eps)]][[as.character(n)]]
+   }
+ }
+
+save(results2,file = "MC_results_9-30.Rdata")
 # results2[,"0.1"] <- sapply(vals$`0.1`,`[[`,1)
 # results2[,"0.15"] <- sapply(vals2$`0.15`,`[[`,1)
 # results2[,"0.2"] <- sapply(vals2$`0.2`,`[[`,1)
