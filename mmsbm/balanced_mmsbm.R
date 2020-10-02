@@ -96,6 +96,9 @@ for (eps in epsilons) {
       Yhat <- irlba(C,3)
       Yhat <- Yhat$u %*% diag(Yhat$d)^(1/2)
       #Yhat <- Yhat$vectors[,c(1,n-1,n)] %*% diag(abs(Yhat$values[c(1,n-1,n)])^(1/2))
+      get_matched_1 <- list()
+      get_matched_2 <- list()
+      
       for (l in c(1:length(signs))) {
         get_matched_1[[l]] <- match_support(Xhat[,c(2,3)],Yhat[,c(2,3)]
                                             ,lambda_init = .2
