@@ -47,11 +47,11 @@ Rcpp::cppFunction("
     return A;
   }
 ")
-set.seed(1111)
+set.seed(1136)
 MCs <- 50
-#epsilons <- c(0,.05,.1,.15,.2,.25,.3)
-ns <- c(100,200,300,400,500,600,700,800,900,1000)
-vals <- rep(0,length(ns))
+epsilons <- c(0,.1,.2,.3,.4)
+ns <- c(500,1000,1500,2000)
+vals <- list()
 i <- 1
 Q1 <- diag(1,2)
 Q2 <- diag(-1,2)
@@ -59,12 +59,12 @@ Q3 <- diag(c(1,-1),2)
 Q4 <- diag(c(-1,1),2)
 signs <- list(Q1,Q2,Q3,Q4)#,Q5,Q6,Q7,Q8)
 signs2 <- list(as.matrix(1),as.matrix(-1))
-#n <- 100
-#for (eps in epsilons) {
-#  vals[[i]] <- list()
-#  print(paste0("epsilon = ",eps))
+
+for (eps in epsilons) {
+  vals[[i]] <- list()
+  print(paste0("epsilon = ",eps))
   B <- matrix(c(.3,.8,.8,.8,.3,.8,.8,.8,.3),3,3)
-  B2 <- B #+ diag(eps,3)
+  B2 <- B + diag(eps,3)
   nus <- eigen(B)
   nus_true1 <- nus$vectors %*% diag(abs(nus$values)^(1/2),3,3)
   nus <- eigen(B2)
@@ -74,12 +74,17 @@ signs2 <- list(as.matrix(1),as.matrix(-1))
   j <- 1
   for (n in ns) {
     print(paste0("n = ",n))
+    vals[[i]][[j]] <- 0
     for (mc in c(1:MCs)) {
-      print(paste0("Run: ",mc," out of ", MCs, " for n = ",n))#, ", eps = ",eps))#Matching datasets")
+      print(paste0("Run: ",mc," out of ", MCs, " for n = ",n, ", eps = ",eps))#Matching datasets")
       m <- n
-      assignmentvector1 <- rmultinom(n,1,pis)
+     # assignmentvector1 <- rmultinom(n,1,pis)
+     # assignmentvector2 <- rmultinom(m,1,pis)
+     # Xtrue <- t(assignmentvector1) %*% nus_true1
+     # Ytrue <- t(assignmentvector2) %*% nus_true2
+      assignmentvector1 <- simplex.sample(3,n)$samples#rmultinom(n,1,pis)
       assignmentvector2 <- simplex.sample(3,n)$samples
-      Xtrue <- t(assignmentvector1) %*% nus_true1
+      Xtrue <- (assignmentvector1) %*% nus_true1
       Ytrue <- (assignmentvector2) %*% nus_true2
       P1 <- Xtrue %*%Ipq %*% t(Xtrue)
       P2 <- Ytrue %*% Ipq %*% t(Ytrue)
@@ -91,19 +96,17 @@ signs2 <- list(as.matrix(1),as.matrix(-1))
       Yhat <- irlba(C,3)
       Yhat <- Yhat$u %*% diag(Yhat$d)^(1/2)
       #Yhat <- Yhat$vectors[,c(1,n-1,n)] %*% diag(abs(Yhat$values[c(1,n-1,n)])^(1/2))
-      get_matched_1 <- list()
-      get_matched_2 <- list()
       for (l in c(1:length(signs))) {
         get_matched_1[[l]] <- match_support(Xhat[,c(2,3)],Yhat[,c(2,3)]
-                                          ,lambda_init = .2
-                                          ,alpha = .2
-                                          , Q = signs[[l]],numReps = 0)
+                                            ,lambda_init = .2
+                                            ,alpha = .2
+                                            , Q = signs[[l]],numReps = 0)
       }
       for (eta in c(1:2)) {
         get_matched_2[[eta]] <-match_support(as.matrix(Xhat[,1]),as.matrix(Yhat[,1])
                                              ,lambda_init = .2
                                              ,alpha = .2
-                                            , Q = signs2[[eta]]
+                                             , Q = signs2[[eta]]
                                              , numReps = 0)
       }
       cs <- sapply(get_matched_1,`[[`,3)
@@ -112,13 +115,32 @@ signs2 <- list(as.matrix(1),as.matrix(-1))
       Q_pos <-get_matched_2[[which.min(cs2)]]$Q
       Xnew <- Xhat %*% diag(c(Q_pos,Q_neg),3)
       test <- nonpar.test(Xnew,Yhat,1000)
-      vals[j] <-  sum(test$permutation_results) + vals[j]
-    } #end MC loop
-    vals[j]<- vals[j]/MCs
+      vals[[i]][[j]] <-  sum(test$permutation_results) + vals[[i]][[j]]
+      
+      
+    }
+    vals[[i]][[j]] <- vals[[i]][[j]]/MCs
     j <- j + 1
-  } #end loop for ns
- 
-names(vals) <- ns  
+  }
+  names(vals[[i]]) <- ns
+  
+  i <- i + 1
+}
+#n <- 100
+
+results <- matrix(0,length(epsilons),length(ns))
+colnames(results) <- ns
+rownames(results) <- epsilons
 
 
-save(vals,file = "MC_results_10-1.Rdata")
+results2 <- t(results)
+# rm(results)
+for (eps in epsilons) {
+  for(n in ns) {
+    results2[as.character(n),as.character(eps)] <- vals[[as.character(eps)]][[as.character(n)]]
+  }
+}
+
+#names(vals) <- ns  
+
+save(results2,file = "MC_results_10-2.Rdata")
