@@ -44,7 +44,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
   m <- n
   B <- matrix(c(.5,.8,.8,.8,.5,.8,.8,.8,.5),3,3)
   if(eps != 0) {
-    B2 <- matrix(c(.5,.8,.8,.8,.5,.8,.8,.8,.5),3,3) + diag(eps)
+    B2 <- matrix(c(.5,.8,.8,.8,.5,.8,.8,.8,.5),3,3) + diag(eps,3)
   } else {
     B2 <- B
   }
