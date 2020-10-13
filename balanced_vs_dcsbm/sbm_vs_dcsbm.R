@@ -32,7 +32,9 @@ Rcpp::cppFunction("
                   ")
 
 
-run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
+
+# Simulate two SBMs and test
+run_simulation_dcsbm <- function(n=300,ntimes=100,seed=1234) {
   results <- list()
   set.seed(seed) #1111 and #1112 is okay
   Q1 <- diag(1,2)
@@ -43,27 +45,20 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
   signs2 <- list(as.matrix(1),as.matrix(-1))
   m <- n
   B <- matrix(c(.5,.8,.8,.8,.5,.8,.8,.8,.5),3,3)
-  if(eps != 0) {
-    B2 <- matrix(c(.5,.8,.8,.8,.5,.8,.8,.8,.5),3,3) + diag(eps)
-  } else {
-    B2 <- B
-  }
-  nus1 <- eigen(B)
-  nus_true1 <- nus1$vectors %*% diag(abs(nus1$values)^(1/2),3,3)
-  nus2 <- eigen(B2)
-  nus_true2 <- nus2$vectors %*% diag(abs(nus2$values)^(1/2),3,3)
+  nus <- eigen(B)
+  nus_true <- nus$vectors %*% diag(abs(nus$values)^(1/2),3,3)
   Ipq <- diag(c(1,-1,-1),3,3)
   pis <- c(1/3,1/3,1/3)
   sigma <- 1/2
+ 
   #n <- 100
-  
-  
   for (i in c(1:ntimes)) {
     print(paste0("i = ",i," out of ",ntimes))
     assignmentvector1 <- rmultinom(n,1,pis)
     assignmentvector2 <- rmultinom(m,1,pis)
-    Xtrue <-t(assignmentvector1) %*% nus_true1
-    Ytrue <-  t(assignmentvector2) %*% nus_true2
+    betas <- rbeta(n,3,1)
+    Xtrue <-t(assignmentvector1) %*% nus_true
+    Ytrue <- betas <- rbeta(n,1,1)* t(assignmentvector2) %*% nus_true
     P1 <- Xtrue %*%Ipq %*% t(Xtrue)
     P2 <- Ytrue %*% Ipq %*% t(Ytrue)
     A <- generateAdjacencyMatrix(P1)
@@ -86,7 +81,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
                                                         , Q = bdiag(1,signs[[l]]),numReps = 10
                                                         ,p=1,q=2)
       cs1[l] <- get_matched_1[[l]]$obj.value
-      cs1[l] <- kernel.stat(Xhat%*% get_matched_1[[l]]$Q,Yhat)
+      cs1[l] <- gmmase::nonpar(Xhat%*% get_matched_1[[l]]$Q,Yhat)
       
       get_matched_2[[l]] <- iterative_optimal_transport(Xhat,Yhat
                                                         # ,lambda_init = .5
@@ -95,7 +90,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
                                                         , Q = bdiag(-1,signs[[l]]),numReps = 10
                                                         ,p=1,q=2)
       cs2[l] <- get_matched_2[[l]]$obj.value
-      cs2[l] <- kernel.stat(Xhat%*% get_matched_2[[l]]$Q,Yhat)
+      cs2[l] <- gmmase::nonpar(Xhat%*% get_matched_2[[l]]$Q,Yhat)
     }
     
     minval1 <- cs1[which.min(cs1)]
@@ -110,30 +105,10 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
     Xnew <- Xhat%*% final_Q
     
     results[[i]] <- nonpar.test(Xnew,Yhat)
-  }
-  
-  
-  
-  alpha <- .05
-  for (i in c(1:length(results))) {
+    
     results[[i]]$critical_value <- sort(results[[i]]$permutation_results)[floor((1-alpha)*length(results[[i]]$permutation_results))]
     results[[i]]$`estimated p-value` <- sum(results[[i]]$permutation_results > results[[i]]$`test statistic`)/length(results[[i]]$permutation_results)
+    
   }
   
-  return(results)
-  
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
