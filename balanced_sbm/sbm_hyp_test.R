@@ -75,7 +75,7 @@ for (i in c(1:ntimes)) {
   get_matched_1 <- list()
   get_matched_2 <- list()
   for (l in c(1:(length(signs)))) {
-    get_matched_1[[l]] <- iterative_optimal_transport1(Xhat,Yhat
+    get_matched_1[[l]] <- iterative_optimal_transport(Xhat,Yhat
                                                        #,lambda_init = .5
                                                        #,alpha = .5
                                                        #,lambda_final = .27
@@ -84,7 +84,7 @@ for (i in c(1:ntimes)) {
     cs1[l] <- get_matched_1[[l]]$obj.value
     cs1[l] <- gmmase::nonpar(Xhat%*% get_matched_1[[l]]$Q,Yhat)
     
-    get_matched_2[[l]] <- iterative_optimal_transport1(Xhat,Yhat
+    get_matched_2[[l]] <- iterative_optimal_transport(Xhat,Yhat
                                                        # ,lambda_init = .5
                                                        #,alpha = .5
                                                        # ,lambda_final = .27
