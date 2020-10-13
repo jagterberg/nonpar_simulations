@@ -82,7 +82,7 @@ for (i in c(1:ntimes)) {
                                                        , Q = bdiag(1,signs[[l]]),numReps = 10
                                                        ,p=1,q=2)
     cs1[l] <- get_matched_1[[l]]$obj.value
-    cs1[l] <- gmmase::nonpar(Xhat%*% get_matched_1[[l]]$Q,Yhat)
+    cs1[l] <- kernel.stat(Xhat%*% get_matched_1[[l]]$Q,Yhat)
     
     get_matched_2[[l]] <- iterative_optimal_transport(Xhat,Yhat
                                                        # ,lambda_init = .5
@@ -91,7 +91,7 @@ for (i in c(1:ntimes)) {
                                                        , Q = bdiag(-1,signs[[l]]),numReps = 10
                                                        ,p=1,q=2)
     cs2[l] <- get_matched_2[[l]]$obj.value
-    cs2[l] <- gmmase::nonpar(Xhat%*% get_matched_2[[l]]$Q,Yhat)
+    cs2[l] <- kernel.stat(Xhat%*% get_matched_2[[l]]$Q,Yhat)
   }
   
   minval1 <- cs1[which.min(cs1)]
