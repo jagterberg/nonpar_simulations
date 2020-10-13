@@ -56,6 +56,7 @@ sigma <- 1/2
 
 
 for (i in c(1:ntimes)) {
+  print(paste0("i = ",i," out of ",ntimes))
   assignmentvector1 <- rmultinom(n,1,pis)
   assignmentvector2 <- rmultinom(m,1,pis)
   Xtrue <-t(assignmentvector1) %*% nus_true
