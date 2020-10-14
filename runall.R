@@ -10,7 +10,7 @@ for (n in ns) {
   i <- 1
   for (eps in epsilons) {
     print(paste0("eps = ",eps))
-    results_sbm[[j]][[i]] <- run_simulation_sbm(eps = eps)
+    results_sbm[[j]][[i]] <- run_simulation_sbm(eps = eps,ntimes = 500,n=n)
     i <- i+ 1
   }
   names(results_sbm[[j]]) <- epsilons
@@ -18,7 +18,7 @@ for (n in ns) {
 }
 names(results_sbm) <- ns
 
-save(results_sbm,file = "sbm_results_10-13.Rdata")
+save(results_sbm,file = "sbm_results_10-14.Rdata")
 
 print("finished SBM simulations, starting DCSBM simulations")
 
@@ -27,9 +27,9 @@ j <- 1
 results_dcsbm <- list()
 for (n in ns) {
   print(paste0("n = ",n))
-  results_dcsbm[[j]] <- run_simulation_dcsbm(n=n)
+  results_dcsbm[[j]] <- run_simulation_dcsbm(n=n,ntimes = 500)
   j <- j+1
 }
 names(results_dcsbm) <- ns
-save(results_dcsbm,file = "dcsbm_results_10-13.Rdata")
+save(results_dcsbm,file = "dcsbm_results_10-14.Rdata")
 
