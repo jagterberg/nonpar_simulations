@@ -35,6 +35,7 @@ Rcpp::cppFunction("
 
 # Simulate two SBMs and test
 run_simulation_dcsbm <- function(n=300,ntimes=100,seed=1234) {
+  alpha <- .05
   results <- list()
   set.seed(seed) #1111 and #1112 is okay
   Q1 <- diag(1,2)
