@@ -41,24 +41,25 @@ results_sbm[[1]] <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba
          ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
            source("./balanced_sbm/sbm_hyp_test.R")
            #print(paste("eps = ",eps,", n = ",n))
-           run_simulation_sbm(eps = eps,ntimes = 100,n=ns[1])
+           run_simulation_sbm(eps = eps,ntimes = 100,n=ns[1],nMC = 500)
   }
 
 print(paste("finished n =",ns[1]))
+registerDoParallel(cores=numcores)
 results_sbm[[2]] <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
                             ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
                               source("./balanced_sbm/sbm_hyp_test.R")
                               #print(paste("eps = ",eps,", n = ",n))
-                              run_simulation_sbm(eps = eps,ntimes = 100,n=ns[2])
+                              run_simulation_sbm(eps = eps,ntimes = 100,n=ns[2],nMC = 500)
                             }
 
 print(paste("finished n =",ns[2]))
-
+registerDoParallel(cores=numcores)
 results_sbm[[3]] <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
                             ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
                               source("./balanced_sbm/sbm_hyp_test.R")
                               #print(paste("eps = ",eps,", n = ",n))
-                              run_simulation_sbm(eps = eps,ntimes = 100,n=ns[3])
+                              run_simulation_sbm(eps = eps,ntimes = 100,n=ns[3],nMC = 500)
                             }
 # #j <- 1
 # #for (n in ns) {

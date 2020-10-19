@@ -15,7 +15,7 @@ Rcpp::cppFunction("
                   ")
 
 
-run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
+run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0,nMC=500) {
   results <- list()
   print(paste("initializing simulation for n =",n,"eps = ",eps))
   set.seed(seed) #1111 and #1112 is okay
@@ -130,7 +130,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
     
     Xnew <- Xhat%*% final_Q
     
-    results[[i]] <- nonpar.test(Xnew,Yhat)
+    results[[i]] <- nonpar.test(Xnew,Yhat,nsims = nMC)
   }
   
   
