@@ -131,7 +131,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
                                                  ,eps = .01,eps_OT = .01
                                                  ,p=1,q=2)
     
-    minval3 <- gmmase::nonpar(Xhat%*% get_matched_3$Q,Yhat)
+    minval3 <- kernel.stat(Xhat%*% get_matched_3$Q,Yhat)
 
     
     if( minval1 < minval2 & minval1 < minval3) { 
