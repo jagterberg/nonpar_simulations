@@ -2,8 +2,31 @@ Loading required package: foreach
 Loading required package: parallel
 Loading required package: doParallel
 Loading required package: iterators
-[1] "packages loaded, running SBM simulation on 24 cores."
+Installing package into ‘/cis/home/jagterb1/R/x86_64-pc-linux-gnu-library/3.4’
+(as ‘lib’ is unspecified)
+* installing *source* package ‘nonparGraphTesting’ ...
+** R
+** inst
+** preparing package for lazy loading
+Warning: replacing previous import ‘Matrix::cov2cor’ by ‘stats::cov2cor’ when loading ‘nonparGraphTesting’
+Warning: replacing previous import ‘Matrix::toeplitz’ by ‘stats::toeplitz’ when loading ‘nonparGraphTesting’
+Warning: replacing previous import ‘Matrix::update’ by ‘stats::update’ when loading ‘nonparGraphTesting’
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded
+Warning: replacing previous import ‘Matrix::cov2cor’ by ‘stats::cov2cor’ when loading ‘nonparGraphTesting’
+Warning: replacing previous import ‘Matrix::toeplitz’ by ‘stats::toeplitz’ when loading ‘nonparGraphTesting’
+Warning: replacing previous import ‘Matrix::update’ by ‘stats::update’ when loading ‘nonparGraphTesting’
+* DONE (nonparGraphTesting)
+Warning messages:
+1: replacing previous import ‘Matrix::cov2cor’ by ‘stats::cov2cor’ when loading ‘nonparGraphTesting’ 
+2: replacing previous import ‘Matrix::toeplitz’ by ‘stats::toeplitz’ when loading ‘nonparGraphTesting’ 
+3: replacing previous import ‘Matrix::update’ by ‘stats::update’ when loading ‘nonparGraphTesting’ 
+Loading required package: irlba
 Loading required package: Matrix
+Loading required package: igraph
 Loading required package: methods
 
 Attaching package: ‘igraph’
@@ -16,88 +39,44 @@ The following object is masked from ‘package:base’:
 
     union
 
+Loading required package: Rcpp
+[1] "packages loaded, running SBM simulation on 24 cores."
 [1] "eps =  0 , n =  300"
-[1] "eps =  0.1 , n =  600"
-[1] "eps =  0.2 , n =  900"
-Installing package into ‘/cis/home/jagterb1/R/x86_64-pc-linux-gnu-library/3.4’
-(as ‘lib’ is unspecified)
-Installing package into ‘/cis/home/jagterb1/R/x86_64-pc-linux-gnu-library/3.4’
-(as ‘lib’ is unspecified)
-Installing package into ‘/cis/home/jagterb1/R/x86_64-pc-linux-gnu-library/3.4’
-(as ‘lib’ is unspecified)
-Warning in dir.create(lockdir, recursive = TRUE) :Warning in dir.create(lockdir, recursive = TRUE) :
- 
-  '/cis/home/jagterb1/R/x86_64-pc-linux-gnu-library/3.4/00LOCK-nonparGraphTesting' already exists
- '/cis/home/jagterb1/R/x86_64-pc-linux-gnu-library/3.4/00LOCK-nonparGraphTesting' already exists
-* installing *source* package ‘nonparGraphTesting’ ...
-* installing *source* package ‘nonparGraphTesting’ ...
-* installing *source* package ‘nonparGraphTesting’ ...
-mv: cannot move '/cis/home/jagterb1/R/x86_64-pc-linux-gnu-library/3.4/nonparGraphTesting' to '/cis/home/jagterb1/R/x86_64-pc-linux-gnu-library/3.4/00LOCK-nonparGraphTesting/nonparGraphTesting/nonparGraphTesting': No such file or directory
-** R
-** R
-** R
-** inst
-** inst
-** inst
-** preparing package for lazy loading
-** preparing package for lazy loading
-** preparing package for lazy loading
-Warning: replacing previous import ‘Matrix::cov2cor’ by ‘stats::cov2cor’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::toeplitz’ by ‘stats::toeplitz’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::update’ by ‘stats::update’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::cov2cor’ by ‘stats::cov2cor’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::cov2cor’ by ‘stats::cov2cor’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::toeplitz’ by ‘stats::toeplitz’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::toeplitz’ by ‘stats::toeplitz’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::update’ by ‘stats::update’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::update’ by ‘stats::update’ when loading ‘nonparGraphTesting’
-** help
-** help
-** help
-*** installing help indices
-*** installing help indices
-*** installing help indices
-Warning in (function (n)  : internal error -3 in R_decompress1
-Warning in (function (n)  :Warning in (function (n)  : internal error -3 in R_decompress1
- internal error -3 in R_decompress1
-** building package indices
-** building package indices
-** building package indices
-Warning in (function (n)  :Warning in (function (n)  : internal error -3 in R_decompress1
- internal error -3 in R_decompress1
-Warning in (function (n)  : internal error -3 in R_decompress1
-** installing vignettes
-** installing vignettes
-** installing vignettes
-** testing if installed package can be loaded
-** testing if installed package can be loaded
-** testing if installed package can be loaded
-Warning: replacing previous import ‘Matrix::cov2cor’ by ‘stats::cov2cor’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::toeplitz’ by ‘stats::toeplitz’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::update’ by ‘stats::update’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::cov2cor’ by ‘stats::cov2cor’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::toeplitz’ by ‘stats::toeplitz’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::update’ by ‘stats::update’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::cov2cor’ by ‘stats::cov2cor’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::toeplitz’ by ‘stats::toeplitz’ when loading ‘nonparGraphTesting’
-Warning: replacing previous import ‘Matrix::update’ by ‘stats::update’ when loading ‘nonparGraphTesting’
-* DONE (nonparGraphTesting)
-* DONE (nonparGraphTesting)
-* DONE (nonparGraphTesting)
-[1] "initializing simulation for n = 900 eps =  0.2"
-[1] "beginning simulation for n = 900 eps =  0.2"
-[1] "i = 1 out of 100"
-[1] "initializing simulation for n = 600 eps =  0.1"
-[1] "beginning simulation for n = 600 eps =  0.1"
-[1] "i = 1 out of 100"
 [1] "initializing simulation for n = 300 eps =  0"
 [1] "beginning simulation for n = 300 eps =  0"
 [1] "i = 1 out of 100"
-Error in { : 
-  task 1 failed - "lazy-load database '/cis/home/jagterb1/R/x86_64-pc-linux-gnu-library/3.4/nonparGraphTesting/R/nonparGraphTesting.rdb' is corrupt"
-Calls: %dopar% -> <Anonymous>
-In addition: Warning messages:
-1: replacing previous import ‘Matrix::cov2cor’ by ‘stats::cov2cor’ when loading ‘nonparGraphTesting’ 
-2: replacing previous import ‘Matrix::toeplitz’ by ‘stats::toeplitz’ when loading ‘nonparGraphTesting’ 
-3: replacing previous import ‘Matrix::update’ by ‘stats::update’ when loading ‘nonparGraphTesting’ 
-Execution halted
+[1] "eps =  0.1 , n =  600"
+[1] "initializing simulation for n = 600 eps =  0.1"
+[1] "beginning simulation for n = 600 eps =  0.1"
+[1] "i = 1 out of 100"
+[1] "eps =  0.2 , n =  900"
+[1] "initializing simulation for n = 900 eps =  0.2"
+[1] "beginning simulation for n = 900 eps =  0.2"
+[1] "i = 1 out of 100"
+[1] "i = 2 out of 100"
+[1] "i = 3 out of 100"
+[1] "i = 2 out of 100"
+[1] "i = 4 out of 100"
+[1] "i = 5 out of 100"
+[1] "i = 6 out of 100"
+[1] "i = 2 out of 100"
+[1] "i = 3 out of 100"
+[1] "i = 7 out of 100"
+[1] "i = 8 out of 100"
+[1] "i = 4 out of 100"
+[1] "i = 9 out of 100"
+[1] "i = 10 out of 100"
+[1] "i = 11 out of 100"
+[1] "i = 3 out of 100"
+[1] "i = 5 out of 100"
+[1] "i = 12 out of 100"
+[1] "i = 13 out of 100"
+[1] "i = 6 out of 100"
+[1] "i = 14 out of 100"
+[1] "i = 15 out of 100"
+[1] "i = 4 out of 100"
+[1] "i = 16 out of 100"
+[1] "i = 7 out of 100"
+[1] "i = 17 out of 100"
+[1] "i = 18 out of 100"
+[1] "finished SBM simulations."
