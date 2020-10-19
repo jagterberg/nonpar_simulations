@@ -1,21 +1,4 @@
-install.packages("nonparGraphTesting_0.1.0.tar.gz", repos = NULL, type="source")
-library(nonparGraphTesting)
-if (!require(irlba)) {
-  install.packages("irlba")
-  library(irlba)
-}
-if(!require(igraph)) {
-  install.packages("igraph")
-  library(igraph)
-}
-if(!require(Rcpp)) {
-  install.packages("Rcpp")
-  library(Rcpp)
-}
-if(!require(Matrix)) {
-  install.packages("Matrix")
-  library(Matrix)
-}
+
 Rcpp::cppFunction("
                   NumericMatrix generateAdjacencyMatrix(NumericMatrix pMatrix) {
                   

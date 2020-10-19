@@ -1,4 +1,3 @@
-
 if(!require(foreach)) {
   install.packages("foreach")
   library(foreach)
@@ -11,7 +10,24 @@ if(!require(doParallel)) {
   install.packages('doParallel')
   library(doParallel)
 }
-
+install.packages("nonparGraphTesting_0.1.0.tar.gz", repos = NULL, type="source")
+library(nonparGraphTesting)
+if (!require(irlba)) {
+  install.packages("irlba")
+  library(irlba)
+}
+if(!require(igraph)) {
+  install.packages("igraph")
+  library(igraph)
+}
+if(!require(Rcpp)) {
+  install.packages("Rcpp")
+  library(Rcpp)
+}
+if(!require(Matrix)) {
+  install.packages("Matrix")
+  library(Matrix)
+}
 
 numcores <- detectCores()
 registerDoParallel(cores=numcores)
@@ -23,8 +39,8 @@ results_sbm <- list()
 results_sbm <- foreach(eps=epsilons,n=ns
                        ,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
                        ,.noexport = "generateAdjacencyMatrix" ) %dopar% {
-  print(paste("eps = ",eps,", n = ",n))
   source("./balanced_sbm/sbm_hyp_test.R")
+  print(paste("eps = ",eps,", n = ",n))
   run_simulation_sbm(eps = eps,ntimes = 100,n=n)
   
 }
