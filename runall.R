@@ -37,15 +37,29 @@ print(paste0("packages loaded, running SBM simulation on ",numcores," cores."))
 
 
 results_sbm <- list()
-results_sbm <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
-         ,.noexport = "generateAdjacencyMatrix" ) %:% foreach(n = ns) %dopar% {
+results_sbm[[1]] <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
+         ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
            source("./balanced_sbm/sbm_hyp_test.R")
            #print(paste("eps = ",eps,", n = ",n))
-           run_simulation_sbm(eps = eps,ntimes = 100,n=n)
+           run_simulation_sbm(eps = eps,ntimes = 100,n=ns[1])
   }
 
+print(paste("finished n =",ns[1]))
+results_sbm[[2]] <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
+                            ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
+                              source("./balanced_sbm/sbm_hyp_test.R")
+                              #print(paste("eps = ",eps,", n = ",n))
+                              run_simulation_sbm(eps = eps,ntimes = 100,n=ns[2])
+                            }
 
+print(paste("finished n =",ns[2]))
 
+results_sbm[[3]] <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
+                            ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
+                              source("./balanced_sbm/sbm_hyp_test.R")
+                              #print(paste("eps = ",eps,", n = ",n))
+                              run_simulation_sbm(eps = eps,ntimes = 100,n=ns[3])
+                            }
 # #j <- 1
 # #for (n in ns) {
 # #  print(paste0("n = ",n))
