@@ -36,13 +36,13 @@ ns <- c(300,600,900)
 print(paste0("packages loaded, running SBM simulation on ",numcores," cores."))
 
 results_sbm <- list()
-results_sbm <- foreach(eps=epsilons,n=ns
-                       ,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
-                       ,.noexport = "generateAdjacencyMatrix" ) %dopar% {
-  source("./balanced_sbm/sbm_hyp_test.R")
-  print(paste("eps = ",eps,", n = ",n))
-  run_simulation_sbm(eps = eps,ntimes = 100,n=n)
-  
+results_sbm <- foreach(eps=epsilons) %:% {
+  foreach(n=ns,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
+         ,.noexport = "generateAdjacencyMatrix" ) %dopar% {
+           source("./balanced_sbm/sbm_hyp_test.R")
+           #print(paste("eps = ",eps,", n = ",n))
+           run_simulation_sbm(eps = eps,ntimes = 100,n=n)
+  }
 }
 
 

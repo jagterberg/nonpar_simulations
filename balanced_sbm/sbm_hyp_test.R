@@ -140,8 +140,9 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
     results[[i]]$critical_value <- sort(results[[i]]$permutation_results)[floor((1-alpha)*length(results[[i]]$permutation_results))]
     results[[i]]$`estimated p-value` <- sum(results[[i]]$permutation_results > results[[i]]$`test statistic`)/length(results[[i]]$permutation_results)
   }
-  
-  return(results)
+  mainvals <- paste0("n = ",n,", eps = ",eps)
+  toReturn <-list(mainvals,results)
+  return(toReturn)
   
 }
 
