@@ -72,7 +72,10 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
     Xhat <- Xhat$u %*% diag(Xhat$d)^(1/2)
     Yhat <- irlba(C,3)
     Yhat <- Yhat$u %*% diag(Yhat$d)^(1/2)
-    
+    Xtilde <- irlba(P1,3)
+    Xtilde <- Xtilde$u %*% diag(Xtilde$d)^(1/2)
+    Ytilde <- irlba(P2,3)
+    Ytilde <- Ytilde$u %*% diag(Ytilde$d)^(1/2)
     #find the alignment
     cs1 <- rep(0,length(signs))
     cs2 <- rep(0,length(signs))
@@ -100,9 +103,43 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
     
     minval1 <- cs1[which.min(cs1)]
     minval2 <- cs2[which.min(cs2)]
-    if( minval1 < minval2) {
+    
+    
+    W1 <- procrustes(Xhat,Xtilde,Pi = diag(1,n),p=1,q=2)
+    W2 <- procrustes(Yhat,Ytilde,Pi = diag(1,n),p=1,q=2)
+    
+    Q1 <- iterative_optimal_transport(Xtilde,Ytilde,lambda=.01
+                                      # ,lambda_init = .5
+                                      #,alpha = .5
+                                      # ,lambda_final = .27
+                                      
+                                      ,numReps =  50
+                                      ,eps = .01,eps_OT = .01
+                                      ,p=1,q=2)
+    
+    #Q1 <- Q1$Q
+    
+    Q_init <- W1 %*% Q1$Q %*% t(W2)
+    
+    
+    get_matched_3 <- iterative_optimal_transport(Xhat,Yhat,lambda=.01
+                                                 # ,lambda_init = .5
+                                                 #,alpha = .5
+                                                 # ,lambda_final = .27
+                                                 , Q = Q_init
+                                                 ,numReps =  50
+                                                 ,eps = .01,eps_OT = .01
+                                                 ,p=1,q=2)
+    
+    minval3 <- gmmase::nonpar(Xhat%*% get_matched_3$Q,Yhat)
+
+    
+    if( minval1 < minval2 & minval1 < minval3) { 
       final_Q <- get_matched_1[[which.min(cs1)]]$Q
       
+     
+    } else if ( minval3 < minval1){
+      final_Q <- get_matched_3$Q#[[which.min(cs1)]]$Q
     } else {
       final_Q <- get_matched_2[[which.min(cs2)]]$Q
     }
