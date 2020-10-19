@@ -35,15 +35,15 @@ epsilons <- c(0,.1,.2)
 ns <- c(300,600,900)
 print(paste0("packages loaded, running SBM simulation on ",numcores," cores."))
 
+
 results_sbm <- list()
-results_sbm <- foreach(eps=epsilons) %:% {
-  foreach(n=ns,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
-         ,.noexport = "generateAdjacencyMatrix" ) %dopar% {
+results_sbm <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
+         ,.noexport = "generateAdjacencyMatrix" ) %:% foreach(n = ns) %dopar% {
            source("./balanced_sbm/sbm_hyp_test.R")
            #print(paste("eps = ",eps,", n = ",n))
            run_simulation_sbm(eps = eps,ntimes = 100,n=n)
   }
-}
+
 
 
 # #j <- 1
