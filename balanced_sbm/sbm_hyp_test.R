@@ -34,6 +34,7 @@ Rcpp::cppFunction("
 
 run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
   results <- list()
+  print(paste("initializing simulation for n =",n,"eps = ",eps))
   set.seed(seed) #1111 and #1112 is okay
   Q1 <- diag(1,2)
   Q2 <- diag(-1,2)
@@ -57,7 +58,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0) {
   sigma <- 1/2
   #n <- 100
   
-  
+  print(paste("beginning simulation for n =",n,"eps = ",eps))
   for (i in c(1:ntimes)) {
     print(paste0("i = ",i," out of ",ntimes))
     assignmentvector1 <- rmultinom(n,1,pis)
