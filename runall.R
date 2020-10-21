@@ -29,33 +29,35 @@ if(!require(Matrix)) {
   library(Matrix)
 }
 
-numcores <- detectCores()
-registerDoParallel(cores=3)
+# numcores <- detectCores()
+# registerDoParallel(cores=3)
 epsilons <- c(0,.1,.2)
 ns <- c(300,500,700)#600,900)
 print(paste0("packages loaded, running SBM simulation on ",numcores," cores."))
 
+# 
+# results_sbm <- list()
+# results_sbm[[1]] <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
+#          ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
+#            source("./balanced_sbm/sbm_hyp_test.R")
+#            #print(paste("eps = ",eps,", n = ",n))
+#            run_simulation_sbm(eps = eps,ntimes = 100,n=ns[1],nMC = 500)
+#   }
+# save(results_sbm,file = "sbm_results_10-19.Rdata")
 
-results_sbm <- list()
-results_sbm[[1]] <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
-         ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
-           source("./balanced_sbm/sbm_hyp_test.R")
-           #print(paste("eps = ",eps,", n = ",n))
-           run_simulation_sbm(eps = eps,ntimes = 100,n=ns[1],nMC = 500)
-  }
-save(results_sbm,file = "sbm_results_10-19.Rdata")
+# print(paste("finished n =",ns[1]))
+# registerDoParallel(cores=3)
+# results_sbm[[2]] <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
+#                             ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
+#                               source("./balanced_sbm/sbm_hyp_test.R")
+#                               #print(paste("eps = ",eps,", n = ",n))
+#                               run_simulation_sbm(eps = eps,ntimes = 100,n=ns[2],nMC = 500)
+#                             }
 
-print(paste("finished n =",ns[1]))
-registerDoParallel(cores=3)
-results_sbm[[2]] <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
-                            ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
-                              source("./balanced_sbm/sbm_hyp_test.R")
-                              #print(paste("eps = ",eps,", n = ",n))
-                              run_simulation_sbm(eps = eps,ntimes = 100,n=ns[2],nMC = 500)
-                            }
-
-save(results_sbm,file = "sbm_results_10-19.Rdata")
-registerDoParallel(cores=3)
+#save(results_sbm,file = "sbm_results_10-19.Rdata")
+cores=detectCores()
+cl <- makeCluster(cores[1]-1) #not to overload your computer
+registerDoParallel(cl)
 print(paste("finished n =",ns[2]))
 results_sbm[[3]] <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba','igraph','Rcpp','Matrix')
                             ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
@@ -78,8 +80,8 @@ results_sbm[[3]] <- foreach(eps=epsilons,.packages=c('nonparGraphTesting','irlba
 # }
 # names(results_sbm) <- ns
 
-save(results_sbm,file = "sbm_results_10-19.Rdata")
-
+save(results_sbm,file = "sbm_results_10-20.Rdata")
+stopCluster(cl)
 print("finished SBM simulations.")#, starting DCSBM simulations")
 
 # source("./balanced_vs_dcsbm/sbm_vs_dcsbm.R")
