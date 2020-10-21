@@ -122,7 +122,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=1234,eps=0,nMC=500) {
       final_Q <- get_matched_1[[which.min(cs1)]]$Q
       
      
-    } else if ( minval3 < minval1){
+    } else if ( minval3 < minval2){
       final_Q <- get_matched_3$Q#[[which.min(cs1)]]$Q
     } else {
       final_Q <- get_matched_2[[which.min(cs2)]]$Q
