@@ -32,7 +32,7 @@ if(!require(Matrix)) {
 # numcores <- detectCores()
 # registerDoParallel(cores=3)
 epsilons <- c(0,.1,.2)
-ns <- c(100,200,300,400,500)#,500,700)#600,900)
+ns <- c(100,200,300,400,500,600,700)#600,900)
 cores=detectCores()
 cl <- makeCluster(cores[1]-1) #not to overload your computer
 registerDoParallel(cl)
@@ -49,14 +49,14 @@ results <- foreach(n = ns,.packages=c('nonparGraphTesting','irlba','igraph','Rcp
                                      ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
                                        source("./balanced_sbm/sbm_hyp_test.R")
                                        #print(paste("eps = ",eps,", n = ",n))
-                                       run_simulation_sbm(eps = eps,ntimes = 100,n=n,nMC = 500)
+                                       run_simulation_sbm(eps = eps,ntimes = 100,n=n,nMC = 1000)
         }
           
         
 
 
 stopCluster(cl)
-save(results,file = "sbm_results_10-25.Rdata")
+save(results,file = "sbm_results_10-25_2.Rdata")
 print("finished.")#,ns[1]))
 # cl <- makeCluster(cores[1]-1) #not to overload your computer
 # registerDoParallel(cl)
