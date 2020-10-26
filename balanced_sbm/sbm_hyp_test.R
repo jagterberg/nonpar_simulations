@@ -15,7 +15,7 @@ Rcpp::cppFunction("
                   ")
 
 
-run_simulation_sbm <- function(n=300,ntimes=100,seed=69,eps=0,nMC=500) {
+run_simulation_sbm <- function(n=300,ntimes=100,seed=8989,eps=0,nMC=500) {
   results <- list()
   print(paste("initializing simulation for n =",n,"eps = ",eps))
   set.seed(seed) #1111 and #1112 is okay
@@ -63,32 +63,43 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=69,eps=0,nMC=500) {
     #find the alignment
     cs1 <- rep(0,length(signs))
     cs2 <- rep(0,length(signs))
+    cs3 <- rep(0,length(signs))
     get_matched_1 <- list()
     get_matched_2 <- list()
+    gm <- list()
     for (l in c(1:(length(signs)))) {
       get_matched_1[[l]] <- iterative_optimal_transport(Xhat,Yhat
                                                         #,lambda_init = .5
                                                         #,alpha = .5
                                                         #,lambda_final = .27
-                                                        , Q = bdiag(1,signs[[l]]),numReps = 10
+                                                        , Q = bdiag(1,signs[[l]]),numReps = 100
                                                         ,p=1,q=2)
-      cs1[l] <- get_matched_1[[l]]$obj.value
-      #cs1[l] <- kernel.stat(Xhat%*% get_matched_1[[l]]$Q,Yhat)
+      #cs1[l] <- get_matched_1[[l]]$obj.value
+      cs1[l] <- kernel.stat(Xhat%*% get_matched_1[[l]]$Q,Yhat)
       
       get_matched_2[[l]] <- iterative_optimal_transport(Xhat,Yhat
                                                         # ,lambda_init = .5
                                                         #,alpha = .5
                                                         # ,lambda_final = .27
-                                                        , Q = bdiag(-1,signs[[l]]),numReps = 10
+                                                        , Q = bdiag(-1,signs[[l]]),numReps = 100
                                                         ,p=1,q=2)
-      cs2[l] <- get_matched_2[[l]]$obj.value
-      #cs2[l] <- kernel.stat(Xhat%*% get_matched_2[[l]]$Q,Yhat)
+      #cs2[l] <- get_matched_2[[l]]$obj.value
+      cs2[l] <- kernel.stat(Xhat%*% get_matched_2[[l]]$Q,Yhat)
+      gm[[l]] <- iterative_optimal_transport(Xtilde,Ytilde,lambda=.01
+                                                        # ,lambda_init = .5
+                                                        #,alpha = .5
+                                                        # ,lambda_final = .27
+                                                        , Q = bdiag(-1,signs[[l]]),numReps = 100
+                                                        ,p=1,q=2)
+      cs3[l] <- kernel.stat(Xtilde%*% gm[[l]]$Q,Ytilde)
+      
     }
     
     minval1 <- cs1[which.min(cs1)]
     minval2 <- cs2[which.min(cs2)]
     
     
+    #get_q_init <- cs3[which.min(cs3)]
     W1 <- procrustes(Xhat,Xtilde,Pi = diag(1,n),p=1,q=2)
     W2 <- procrustes(Yhat,Ytilde,Pi = diag(1,n),p=1,q=2)
     
@@ -96,8 +107,8 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=69,eps=0,nMC=500) {
                                       # ,lambda_init = .5
                                       #,alpha = .5
                                       # ,lambda_final = .27
-                                      
-                                      ,numReps =  50
+                                      ,Q = gm[[which.min(cs3)]]$Q
+                                      ,numReps =  100
                                       ,eps = .01,eps_OT = .01
                                       ,p=1,q=2)
     
@@ -111,11 +122,11 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=69,eps=0,nMC=500) {
                                                  #,alpha = .5
                                                  # ,lambda_final = .27
                                                  , Q = Q_init
-                                                 ,numReps =  50
+                                                 ,numReps =  100
                                                  ,eps = .01,eps_OT = .01
                                                  ,p=1,q=2)
     
-    minval3 <- get_matched_3$obj.value #kernel.stat(Xhat%*% get_matched_3$Q,Yhat)
+    minval3 <- kernel.stat(Xhat%*% get_matched_3$Q,Yhat)
 
     
     if( minval1 < minval2 & minval1 < minval3) { 
