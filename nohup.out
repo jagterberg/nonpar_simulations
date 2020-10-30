@@ -41,4 +41,6 @@ The following object is masked from ‘package:base’:
 
 Loading required package: Rcpp
 [1] "packages loaded, running SBM simulation"
-[1] "finished."
+Error in { : task 1 failed - "object 'Q_init' not found"
+Calls: %dopar% -> <Anonymous>
+Execution halted
