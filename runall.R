@@ -56,7 +56,7 @@ results <- foreach(n = ns,.packages=c('nonparGraphTesting','irlba','igraph','Rcp
 
 
 stopCluster(cl)
-save(results,file = "sbm_results_10-26.Rdata")
+save(results,file = "sbm_results_10-30.Rdata")
 print("finished.")#,ns[1]))
 # cl <- makeCluster(cores[1]-1) #not to overload your computer
 # registerDoParallel(cl)
