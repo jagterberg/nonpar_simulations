@@ -163,14 +163,10 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=8989,eps=0,nMC=500) {
     
     
     minval3 <- kernel.stat(Xhat%*% get_matched_3$Q,Yhat)
-    minval4 <- kernel.stat(Xhat%*%Q_init,Yhat)
+    minval4 <- kernel.stat(Xhat%*%Q_init1,Yhat)
     minval5 <- kernel.stat(Xhat%*%get_matched_4$Q,Yhat)
     
-    minval1
-    minval2
-    minval3
-    minval4
-    minval5
+   
 
     
     if( minval1 < minval2 & minval1 < minval3 & minval1 < minval4 & minval1 < minval5) { 
@@ -180,7 +176,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=8989,eps=0,nMC=500) {
     } else if (minval3 < minval4 & minval3 < minval5) {
       final_Q <- get_matched_3$Q#[[which.min(cs1)]]$Q
     } else if (minval4 < minval5) {
-      final_Q <- Q_init
+      final_Q <- Q_init1
     } else {
       final_Q <- get_matched_4$Q
     }
