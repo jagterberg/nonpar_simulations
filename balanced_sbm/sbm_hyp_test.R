@@ -74,7 +74,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=8989,eps=0,nMC=500) {
                                                         #,lambda_init = .5
                                                         #,alpha = .5
                                                         #,lambda_final = .27
-                                                        , Q = bdiag(1,signs[[l]]),numReps = 10
+                                                        , Q = bdiag(1,signs[[l]]),numReps = 20
                                                         ,p=1,q=2)
       #cs1[l] <- get_matched_1[[l]]$obj.value
       cs1[l] <- kernel.stat(Xhat%*% get_matched_1[[l]]$Q,Yhat)
@@ -83,7 +83,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=8989,eps=0,nMC=500) {
                                                         # ,lambda_init = .5
                                                         #,alpha = .5
                                                         # ,lambda_final = .27
-                                                        , Q = bdiag(-1,signs[[l]]),numReps = 10
+                                                        , Q = bdiag(-1,signs[[l]]),numReps = 20
                                                         ,p=1,q=2)
       #cs2[l] <- get_matched_2[[l]]$obj.value
       cs2[l] <- kernel.stat(Xhat%*% get_matched_2[[l]]$Q,Yhat)
@@ -91,7 +91,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=8989,eps=0,nMC=500) {
                                                         # ,lambda_init = .5
                                                         #,alpha = .5
                                                         # ,lambda_final = .27
-                                                        , Q = bdiag(-1,signs[[l]]),numReps = 10
+                                                        , Q = bdiag(-1,signs[[l]]),numReps = 20
                                                         ,p=1,q=2)
       cs3[l] <- kernel.stat(Xtilde%*% gm[[l]]$Q,Ytilde)
       
@@ -99,8 +99,8 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=8989,eps=0,nMC=500) {
                                              # ,lambda_init = .5
                                              #,alpha = .5
                                              # ,lambda_final = .27
-                                             , Q = bdiag(1,signs[[l]]),numReps = 10
-                                             ,p=1,q=2)
+                                             , Q = bdiag(1,signs[[l]]),numReps = 20
+                                             ,p=3)
       cs4[l] <- kernel.stat(Xtilde%*% gm2[[l]]$Q,Ytilde)
       
     }
@@ -128,7 +128,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=8989,eps=0,nMC=500) {
                                       #,alpha = .5
                                       # ,lambda_final = .27
                                       ,Q = Q0
-                                      ,numReps =  10
+                                      ,numReps =  20
                                       ,eps = .001,eps_OT = .001
                                       ,p=1,q=2)
     
@@ -149,7 +149,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=8989,eps=0,nMC=500) {
                                                  #,alpha = .5
                                                  # ,lambda_final = .27
                                                  , Q = Q_init1
-                                                 ,numReps =  10
+                                                 ,numReps =  20
                                                  ,eps = .001,eps_OT = .001
                                                  ,p=1,q=2)
     get_matched_4 <- iterative_optimal_transport(Xhat,Yhat,lambda=.001
@@ -157,7 +157,7 @@ run_simulation_sbm <- function(n=300,ntimes=100,seed=8989,eps=0,nMC=500) {
                                                  #,alpha = .5
                                                  # ,lambda_final = .27
                                                  , Q = Q_init2
-                                                 ,numReps =  10
+                                                 ,numReps =  20
                                                  ,eps = .001,eps_OT = .001
                                                  ,p=3)#,q=2)
     

@@ -49,7 +49,7 @@ results <- foreach(n = ns,.packages=c('nonparGraphTesting','irlba','igraph','Rcp
                                      ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
                                        source("./balanced_sbm/sbm_hyp_test.R")
                                        #print(paste("eps = ",eps,", n = ",n))
-                                       run_simulation_sbm(eps = eps,ntimes = 100,n=n,nMC = 500)
+                                       run_simulation_sbm(eps = eps,ntimes = 500,n=n,nMC = 1000)
         }
           
         
