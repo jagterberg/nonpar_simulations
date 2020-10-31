@@ -49,14 +49,14 @@ results <- foreach(n = ns,.packages=c('nonparGraphTesting','irlba','igraph','Rcp
                                      ,.noexport = "generateAdjacencyMatrix" )  %dopar% {
                                        source("./balanced_sbm/sbm_hyp_test.R")
                                        #print(paste("eps = ",eps,", n = ",n))
-                                       run_simulation_sbm(eps = eps,ntimes = 500,n=n,nMC = 1000)
+                                       run_simulation_sbm(eps = eps,ntimes = 500,n=n,nMC = 1000,seed=13)
         }
           
         
 
 
 stopCluster(cl)
-save(results,file = "sbm_results_10-30.Rdata")
+save(results,file = "sbm_results_10-31.Rdata")
 print("finished.")#,ns[1]))
 # cl <- makeCluster(cores[1]-1) #not to overload your computer
 # registerDoParallel(cl)
