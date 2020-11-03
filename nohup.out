@@ -41,4 +41,6 @@ The following object is masked from ‘package:base’:
 
 Loading required package: Rcpp
 [1] "packages loaded, running SBM simulation"
-[1] "finished."
+Error in unserialize(socklist[[n]]) : error reading from connection
+Calls: %dopar% ... recvOneData -> recvOneData.SOCKcluster -> unserialize
+Execution halted
